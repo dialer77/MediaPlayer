@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="MediaPlayer.UC.UCMediaList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MediaPlayer.UC"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Image Name="imageMediaIcon" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/UC/RecentListIcon.png" />
+        
+
+        <Grid Name="gridMusicList" Grid.Column="1" Margin="0,30,30,30" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="70"/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+    </Grid>
+</UserControl>

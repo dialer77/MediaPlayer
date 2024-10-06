@@ -153,6 +153,26 @@ namespace MediaPlayer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
+        public static System.Drawing.Bitmap LastPlayListButton {
+            get {
+                object obj = ResourceManager.GetObject("LastPlayListButton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        public static System.Drawing.Bitmap LastPlayListIcon {
+            get {
+                object obj = ResourceManager.GetObject("LastPlayListIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
         public static System.Drawing.Bitmap MaxiumSize {
             get {
                 object obj = ResourceManager.GetObject("MaxiumSize", resourceCulture);
@@ -213,26 +233,6 @@ namespace MediaPlayer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        public static System.Drawing.Bitmap PreviewListIcon {
-            get {
-                object obj = ResourceManager.GetObject("PreviewListIcon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
-        public static System.Drawing.Bitmap PreviewPlayList {
-            get {
-                object obj = ResourceManager.GetObject("PreviewPlayList", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
         public static System.Drawing.Bitmap RecentListButton {
             get {
                 object obj = ResourceManager.GetObject("RecentListButton", resourceCulture);
@@ -263,9 +263,9 @@ namespace MediaPlayer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        public static System.Drawing.Bitmap TopPopularList {
+        public static System.Drawing.Bitmap TopPopularListButton {
             get {
-                object obj = ResourceManager.GetObject("TopPopularList", resourceCulture);
+                object obj = ResourceManager.GetObject("TopPopularListButton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
