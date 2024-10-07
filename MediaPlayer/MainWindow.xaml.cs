@@ -30,21 +30,35 @@ namespace MediaPlayer
         [DllImport("user32.DLL", EntryPoint = "SendMessage")]
         private extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lParam);
 
+        private UCSplashPage ucSplashPage = new UCSplashPage();
+
         private UCMainMenu ucMainMenu = new UCMainMenu();
 
         private UCMediaList ucMediaList = new UCMediaList();
+
+        private MainPageType m_mainPageType = MainPageType.SplashPage;
         
         public MainWindow()
         {
             InitializeComponent();
             UpdateMainPageUI(m_mainPageType);
 
+            ucSplashPage.OnFinishMediaLoaded += UcSplashPage_OnFinishMediaLoaded;
+
             ucMainMenu.OnMusicListButtonClicked += UcMainMenu_OnMusicListButtonClicked;
+        }
+
+        private void UcSplashPage_OnFinishMediaLoaded()
+        {
+            m_mainPageType = MainPageType.MainMenu;
+            UpdateMainPageUI(m_mainPageType);
+
+            ucSplashPage = null;
         }
 
         private void UcMainMenu_OnMusicListButtonClicked(PlayListType type)
         {
-            //MediaManager.GetInstance().SetPlayList(type);
+            MediaManager.GetInstance().SetPlayList(type);
 
             m_mainPageType = MainPageType.MediaList;
             UpdateMainPageUI(m_mainPageType, type);
@@ -81,7 +95,7 @@ namespace MediaPlayer
             }
         }
 
-        private MainPageType m_mainPageType = MainPageType.MainMenu;
+        
 
         private void UpdateMainPageUI(MainPageType mainPageType, PlayListType type = PlayListType.RecentMusicList)
         {
@@ -90,6 +104,10 @@ namespace MediaPlayer
             panelMainPage.Children.Clear();
             switch (mainPageType)
             {
+                case MainPageType.SplashPage:
+                    panelMainPage.Children.Add(ucSplashPage);
+                    buttonBeforePage.Visibility = Visibility.Hidden;
+                    break;
                 case MainPageType.MainMenu:
                     panelMainPage.Children.Add(ucMainMenu);
                     buttonBeforePage.Visibility= Visibility.Hidden;

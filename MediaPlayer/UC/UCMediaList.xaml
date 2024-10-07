@@ -6,21 +6,59 @@
              xmlns:local="clr-namespace:MediaPlayer.UC"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
-        <Image Name="imageMediaIcon" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/UC/RecentListIcon.png" />
-        
+        <Image Name="imageMediaIcon" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/Resources/RecentListIcon.png" />
+        <ListView Name="listViewMediaList" Grid.Column="1" Margin="30, 30, 30, 30" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="{x:Null}">
+            <ListView.Resources>
+                <Style x:Key="{x:Type GridViewColumnHeader}" TargetType="{x:Type GridViewColumnHeader}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </Style>
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+                    <!-- 첫 번째 컬럼 -->
+                    <GridViewColumn Header="내용">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}" Foreground="White" FontSize="32" FontWeight="Bold" HorizontalAlignment="Left"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                        <GridViewColumn.Width>
+                            <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType=ListView}">
+                                <Binding.Converter>
+                                    <local:SubtractValueConverter Subtract="300"/>
+                                </Binding.Converter>
+                            </Binding>
+                        </GridViewColumn.Width>
+                    </GridViewColumn>
 
-        <Grid Name="gridMusicList" Grid.Column="1" Margin="0,30,30,30" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="70"/>
-            </Grid.ColumnDefinitions>
-        </Grid>
+                    <!-- 두 번째 컬럼 -->
+                    <GridViewColumn Header="날짜" Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Singer}" Foreground="Gray" FontSize="24" HorizontalAlignment="Right"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <!-- 세 번째 컬럼 -->
+                    <GridViewColumn Header="시간" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding More}" Foreground="White" FontSize="35" HorizontalAlignment="Left"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+
     </Grid>
 </UserControl>

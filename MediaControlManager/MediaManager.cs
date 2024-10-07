@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using WMPLib;
 
@@ -11,8 +12,6 @@ namespace MediaControlManager
 {
     public class MediaManager
     {
-
-
         private const string FOLDER_NAME_MUSIC = "Music";
         private const string FOLDER_NAME_VIDEO = "Video";
         
@@ -34,7 +33,7 @@ namespace MediaControlManager
             return m_dicPlayList[playListType];
         }
 
-        public bool LoadMusicList()
+        public bool LoadMediaList()
         {
             bool bResult = false;
             try
@@ -88,11 +87,16 @@ namespace MediaControlManager
         }
         
 
+        private object m_csCurrentPlayList = new object();
 
         public void SetPlayList(PlayListType playListType)
         {
-            m_musicPlayer.currentPlaylist = m_dicPlayList[playListType];
-            m_musicPlayer.controls.stop();
+            lock (m_csCurrentPlayList)
+            {
+                m_musicPlayer.currentPlaylist = m_dicPlayList[playListType];
+                Thread.Sleep(100);
+                m_musicPlayer.controls.stop();
+            }
         }
     }
 }

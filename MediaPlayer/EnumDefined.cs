@@ -8,6 +8,7 @@ namespace MediaPlayer
 {
     public enum MainPageType
     {
+        SplashPage,
         MainMenu,
         MediaList,
         MediaPlayer,
