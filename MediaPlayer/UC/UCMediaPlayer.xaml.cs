@@ -27,10 +27,10 @@ namespace MediaPlayer.UC
             InitializeComponent();
             
             // WindowsFormsHost에 Windows Media Player 컨트롤 추가
-            var host = new WindowsFormsHost();
-            var mediaPlayerControl = new System.Windows.Forms.Panel();
-            host.Child = mediaPlayerControl;
-            windowsFormsHost.Child = mediaPlayerControl;
+            //var host = new WindowsFormsHost();
+            //var mediaPlayerControl = new System.Windows.Forms.Panel();
+            //host.Child = mediaPlayerControl;
+            //windowsFormsHost.Child = mediaPlayerControl;
         }
     }
 }

@@ -75,28 +75,54 @@ namespace MediaPlayer.UC
             {
                 IWMPMedia music = mediaList.Item[i];
 
-                MediaItem item = new MediaItem();
-
-                string artist = music.getItemInfo("Artist");
-                if (artist == "")
-                {
-                    artist = "알수없음";
-                }
-                mediaItems.Add(new MediaItem() { 
-                    Title = music.name,
-                    Singer = artist,
-                    More = "..."});
+                mediaItems.Add(new MediaItem(music));
             }
 
             listViewMediaList.ItemsSource = mediaItems;
+        }
+
+        private void listViewMediaList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            
+            MediaItem selectedMedia = (MediaItem)listViewMediaList.SelectedItem;
+            if(selectedMedia == null)
+            {
+                return;
+            }
+            OnMediaItemSelected(_listType, selectedMedia.Media);
         }
     }
 
     public class MediaItem
     {
-        public string Title { get; set; }
-        public string Singer { get; set; }
-        public string More { get; set; } = "···";
+        public MediaItem(IWMPMedia media)
+        {
+            Media = media;
+        }
+
+        public IWMPMedia Media { get; private set; } = null;
+
+        public string Title 
+        {
+            get
+            {
+                return Media.name;
+            }
+        }
+        
+        public string Singer
+        {
+            get
+            {
+                string artist = Media.getItemInfo("Artist");
+                if (artist == "")
+                {
+                    artist = "알수없음";
+                }
+                return artist;
+            }
+        }
+        public string More { get; } = "···";
     }
 
     public class SubtractValueConverter : IValueConverter

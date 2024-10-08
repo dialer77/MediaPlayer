@@ -14,7 +14,7 @@
         </Grid.ColumnDefinitions>
 
         <Image Name="imageMediaIcon" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/Resources/RecentListIcon.png" />
-        <ListView Name="listViewMediaList" Grid.Column="1" Margin="30, 30, 30, 30" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="{x:Null}">
+        <ListView Name="listViewMediaList" Grid.Column="1" Margin="30, 30, 30, 30" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="{x:Null}" MouseDoubleClick="listViewMediaList_MouseDoubleClick">
             <ListView.Resources>
                 <Style x:Key="{x:Type GridViewColumnHeader}" TargetType="{x:Type GridViewColumnHeader}">
                     <Setter Property="Visibility" Value="Collapsed"/>

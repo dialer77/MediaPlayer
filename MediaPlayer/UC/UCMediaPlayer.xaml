@@ -20,7 +20,7 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <WindowsFormsHost Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="6" Panel.ZIndex="1" Name="windowsFormsHost" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
+        <!--<WindowsFormsHost Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="6" Panel.ZIndex="1" Name="windowsFormsHost" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Background="Black" />-->
 
         <Label Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Panel.ZIndex="2" Content="제목제목제목제목" 
                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"

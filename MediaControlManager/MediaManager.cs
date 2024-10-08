@@ -57,20 +57,18 @@ namespace MediaControlManager
         {
             try
             {
-                string musicFolderPath = System.IO.Path.Combine(PathInfo.MusicFolder, playListType.ToString(), FOLDER_NAME_MUSIC);
-                string videoFolderPath = System.IO.Path.Combine(PathInfo.MusicFolder, playListType.ToString(), FOLDER_NAME_VIDEO); 
-                string[] musicFileNames = System.IO.Directory.GetFiles(musicFolderPath);
-                string[] videoFileNames = System.IO.Directory.GetFiles(videoFolderPath);
-
-                IWMPPlaylist playlist = m_musicPlayer.newPlaylist(playListType.ToString(), musicFolderPath);
-                List<string> videoFiles = new List<string>();
-                foreach (string musicFileName in musicFileNames)
+                string mediaFolderPath = System.IO.Path.Combine(PathInfo.MusicFolder, playListType.ToString());
+                if(System.IO.Directory.Exists(mediaFolderPath) == false)
                 {
-                    string musicName = System.IO.Path.GetFileNameWithoutExtension(musicFileName).Trim();
-                    string videoFileName = videoFileNames.Where(name => System.IO.Path.GetFileNameWithoutExtension(name).Trim() == musicName).FirstOrDefault();
+                    System.IO.Directory.CreateDirectory(mediaFolderPath);
+                }
 
-                    IWMPMedia media = m_musicPlayer.newMedia(musicFileName);
-                    media.setItemInfo("VideoURL", videoFileName);
+                string[] mediaFileNames = System.IO.Directory.GetFiles(mediaFolderPath);
+
+                IWMPPlaylist playlist = m_musicPlayer.newPlaylist(playListType.ToString(), mediaFolderPath);
+                foreach (string mediaFileName in mediaFileNames)
+                {
+                    IWMPMedia media = m_musicPlayer.newMedia(mediaFileName);
                     playlist.appendItem(media);
                 }
                 m_dicPlayList.Add(playListType, playlist);
@@ -93,6 +91,7 @@ namespace MediaControlManager
         {
             lock (m_csCurrentPlayList)
             {
+                
                 m_musicPlayer.currentPlaylist = m_dicPlayList[playListType];
                 Thread.Sleep(100);
                 m_musicPlayer.controls.stop();

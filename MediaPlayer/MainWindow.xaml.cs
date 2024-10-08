@@ -36,6 +36,8 @@ namespace MediaPlayer
 
         private UCMediaList ucMediaList = new UCMediaList();
 
+        private UCMediaPlayer ucMediaPlayer = new UCMediaPlayer();
+
         private MainPageType m_mainPageType = MainPageType.SplashPage;
         
         public MainWindow()
@@ -46,6 +48,14 @@ namespace MediaPlayer
             ucSplashPage.OnFinishMediaLoaded += UcSplashPage_OnFinishMediaLoaded;
 
             ucMainMenu.OnMusicListButtonClicked += UcMainMenu_OnMusicListButtonClicked;
+
+            ucMediaList.OnMediaItemSelected += UcMediaList_OnMediaItemSelected;
+        }
+
+        private void UcMediaList_OnMediaItemSelected(PlayListType type, WMPLib.IWMPMedia media)
+        {
+            m_mainPageType = MainPageType.MediaPlayer;
+            UpdateMainPageUI(m_mainPageType);
         }
 
         private void UcSplashPage_OnFinishMediaLoaded()
@@ -118,6 +128,7 @@ namespace MediaPlayer
                     ucMediaList.SetPlayListType(type);
                     break;
                 case MainPageType.MediaPlayer:
+                    panelMainPage.Children.Add(ucMediaPlayer);
                     buttonBeforePage.Visibility = Visibility.Visible;
                     break;
 
@@ -129,6 +140,11 @@ namespace MediaPlayer
             if (m_mainPageType == MainPageType.MediaList)
             {
                 m_mainPageType= MainPageType.MainMenu;
+                UpdateMainPageUI(m_mainPageType);
+            }
+            else if(m_mainPageType == MainPageType.MediaPlayer)
+            {
+                m_mainPageType = MainPageType.MediaList;
                 UpdateMainPageUI(m_mainPageType);
             }
         }
