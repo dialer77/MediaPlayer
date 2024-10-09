@@ -8,6 +8,7 @@ namespace MediaControlManager
 {
     public enum PlayListType
     {
+        None,
         RecentMusicList,
         MyPlayList,
         LastPlayList,

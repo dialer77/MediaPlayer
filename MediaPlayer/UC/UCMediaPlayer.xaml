@@ -5,14 +5,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MediaPlayer.UC"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" IsVisibleChanged="UserControl_IsVisibleChanged">
+    <UserControl.Resources>
+        <!-- 외부 폰트 리소스 참조 -->
+        <FontFamily x:Key="MediaTitleFont">/MediaPlayer;component/Fonts/THEmpgtB.otf#THEmpgtB</FontFamily>
+        <FontFamily x:Key="MediaArtistFont">/MediaPlayer;component/Fonts/THEmpgtL.otf#THEmpgtL</FontFamily>
+    </UserControl.Resources>
     <Grid x:Name="MainGrid" Background="Black"
           MouseMove="UCMediaPlayer_InputDetected"
           KeyDown="UCMediaPlayer_InputDetected"
           PreviewMouseDown="UCMediaPlayer_InputDetected"
           Focusable="True">
         
-        <Border Background="Black">
+        <Border Background="Black" Panel.ZIndex="1">
             <MediaElement x:Name="mediaElement" 
                           LoadedBehavior="Manual" 
                           UnloadedBehavior="Stop"
@@ -22,7 +27,7 @@
         </Border>
 
         <!-- 입력을 항상 받을 수 있도록 하는 투명한 레이어 -->
-        <Grid x:Name="InputLayer" Background="Transparent">
+        <Grid x:Name="InputLayer" Background="Transparent" Panel.ZIndex="2">
             <!-- ControlOverlay는 UI 오버레이 역할을 합니다 -->
             <Grid x:Name="ControlOverlay" 
                   Width="{Binding ActualWidth, ElementName=MainGrid}" 
@@ -47,12 +52,14 @@
                 <Label Name ="TitleLabel"  Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Content="제목제목제목제목" 
                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                       FontSize="30" FontWeight="Bold" Foreground="White"/>
+                       FontSize="32.2" FontWeight="Bold" Foreground="White"
+                       FontFamily="{StaticResource MediaTitleFont}"/>
 
                 <Label Name="ArtistLabel" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Content="제목" 
                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                       FontSize="30" FontWeight="Bold" Foreground="Gray"/>
+                       FontSize="24.6" FontWeight="Bold" Foreground="Gray"
+                       FontFamily="{StaticResource MediaArtistFont}"/>
 
                 <!-- Slider 추가 -->
                 <Grid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3">
@@ -61,13 +68,15 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock x:Name="CurrentTimeTextBlock" Grid.Column="0" Foreground="White" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="CurrentTimeTextBlock" Grid.Column="0" Foreground="White" Margin="10,0,10,0" VerticalAlignment="Center"
+                               FontFamily="{StaticResource MediaTitleFont}"/>
                     <Slider x:Name="ProgressSlider" Grid.Column="1" Minimum="0" Maximum="100" 
                             PreviewMouseDown="ProgressSlider_PreviewMouseDown"
                             PreviewMouseMove="ProgressSlider_PreviewMouseMove"
                             PreviewMouseUp="ProgressSlider_PreviewMouseUp"
                             VerticalAlignment="Center"/>
-                    <TextBlock x:Name="TotalTimeTextBlock" Grid.Column="2" Foreground="White" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="TotalTimeTextBlock" Grid.Column="2" Foreground="White" Margin="10,0,10,0" VerticalAlignment="Center"
+                               FontFamily="{StaticResource MediaTitleFont}"/>
                 </Grid>
 
                 <Button Grid.Column="0" Grid.Row="4"

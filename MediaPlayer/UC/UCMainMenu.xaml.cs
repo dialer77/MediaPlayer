@@ -28,6 +28,8 @@ namespace MediaPlayer.UC
         {
             InitializeComponent();
 
+            RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
+
             buttonRecentList.Tag = PlayListType.RecentMusicList;
             buttonMyPlayList.Tag = PlayListType.MyPlayList;
             buttonLastPlayList.Tag = PlayListType.LastPlayList;

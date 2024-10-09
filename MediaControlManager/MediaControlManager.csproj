@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="EnumDefine.cs" />
     <Compile Include="MediaManager.cs" />
+    <Compile Include="Models\Media.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

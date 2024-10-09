@@ -13,7 +13,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WMPLib;
 
 namespace MediaPlayer.UC
 {
@@ -28,6 +27,7 @@ namespace MediaPlayer.UC
         public UCSplashPage()
         {
             InitializeComponent();
+            RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality); 
         }
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)

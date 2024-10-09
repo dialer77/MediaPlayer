@@ -1,4 +1,5 @@
 ﻿using MediaControlManager;
+using MediaControlManager.Models;
 using MediaPlayer.UC;
 using System;
 using System.Collections.Generic;
@@ -52,7 +53,7 @@ namespace MediaPlayer
             ucMediaList.OnMediaItemSelected += UcMediaList_OnMediaItemSelected;
         }
 
-        private void UcMediaList_OnMediaItemSelected(PlayListType type, WMPLib.IWMPMedia media)
+        private void UcMediaList_OnMediaItemSelected(PlayListType type, Media media)
         {
             m_mainPageType = MainPageType.MediaPlayer;
             UpdateMainPageUI(m_mainPageType, type);
@@ -69,7 +70,7 @@ namespace MediaPlayer
 
         private void UcMainMenu_OnMusicListButtonClicked(PlayListType type)
         {
-            MediaManager.GetInstance().SetPlayList(type);
+            //MediaManager.GetInstance().SetPlayList(type);
 
             m_mainPageType = MainPageType.MediaList;
             UpdateMainPageUI(m_mainPageType, type);
@@ -168,7 +169,7 @@ namespace MediaPlayer
             }
         }
 
-        private void buttonBeforePage_Click(object sender, RoutedEventArgs e)
+        private async void buttonBeforePage_Click(object sender, RoutedEventArgs e)
         {
             if (m_mainPageType == MainPageType.MediaList)
             {
@@ -177,8 +178,10 @@ namespace MediaPlayer
             }
             else if(m_mainPageType == MainPageType.MediaPlayer)
             {
+                ucMediaPlayer.ShowControls();
+                await Task.Delay(100);
                 m_mainPageType = MainPageType.MediaList;
-                UpdateMainPageUI(m_mainPageType);
+                UpdateMainPageUI(m_mainPageType, PlayListType.None);
             }
         }
     }

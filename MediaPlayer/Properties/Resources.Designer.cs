@@ -73,29 +73,9 @@ namespace MediaPlayer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        public static System.Drawing.Bitmap BackGroundMain {
-            get {
-                object obj = ResourceManager.GetObject("BackGroundMain", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
         public static System.Drawing.Bitmap BackGroundMain1 {
             get {
                 object obj = ResourceManager.GetObject("BackGroundMain1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
-        public static System.Drawing.Bitmap BackGroundMusicList {
-            get {
-                object obj = ResourceManager.GetObject("BackGroundMusicList", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -116,26 +96,6 @@ namespace MediaPlayer.Properties {
         public static System.Drawing.Bitmap BeforeButton {
             get {
                 object obj = ResourceManager.GetObject("BeforeButton", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
-        public static System.Drawing.Bitmap cargando {
-            get {
-                object obj = ResourceManager.GetObject("cargando", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
-        public static System.Drawing.Bitmap DriveWave {
-            get {
-                object obj = ResourceManager.GetObject("DriveWave", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -246,6 +206,16 @@ namespace MediaPlayer.Properties {
         public static System.Drawing.Bitmap RecentListIcon {
             get {
                 object obj = ResourceManager.GetObject("RecentListIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        public static System.Drawing.Bitmap SplashIcon {
+            get {
+                object obj = ResourceManager.GetObject("SplashIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

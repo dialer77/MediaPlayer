@@ -1,4 +1,5 @@
 ﻿using MediaControlManager;
+using MediaControlManager.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,8 +17,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WMPLib;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MediaPlayer.UC
 {
@@ -26,19 +25,23 @@ namespace MediaPlayer.UC
     /// </summary>
     public partial class UCMediaList : UserControl
     {
-        public delegate void OnMediaItemSelect(PlayListType type, IWMPMedia media);
+        public delegate void OnMediaItemSelect(PlayListType type, Media media);
         public event OnMediaItemSelect OnMediaItemSelected;
 
         private PlayListType _listType;
         public UCMediaList()
         {
             InitializeComponent();
+
+            RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
         }
 
         public void SetPlayListType(PlayListType playListType)
         {
-            _listType = playListType;
-
+            if(playListType != PlayListType.None)
+            {
+                _listType = playListType;
+            }
             UpdateUI(_listType);
         }
 
@@ -67,75 +70,72 @@ namespace MediaPlayer.UC
 
         private void UpdateMusicList(PlayListType playListType)
         {
-            IWMPPlaylist mediaList = MediaManager.GetInstance().GetPlayList(playListType);
+            List<Media> mediaList = MediaManager.GetInstance().GetPlayList(playListType);
 
-            ObservableCollection<MediaItem> mediaItems = new ObservableCollection<MediaItem>();
-
-            for (int i = 0; i < mediaList.count; i++)
-            {
-                IWMPMedia music = mediaList.Item[i];
-
-                mediaItems.Add(new MediaItem(music));
-            }
-
-            listViewMediaList.ItemsSource = mediaItems;
+            listViewMediaList.ItemsSource = mediaList;
         }
 
         private void listViewMediaList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            
-            MediaItem selectedMedia = (MediaItem)listViewMediaList.SelectedItem;
+
+            Media selectedMedia = (Media)listViewMediaList.SelectedItem;
             if(selectedMedia == null)
             {
                 return;
             }
-            OnMediaItemSelected(_listType, selectedMedia.Media);
+            OnMediaItemSelected(_listType, selectedMedia);
         }
     }
 
-    public class MediaItem
+    public class SubtractValueConverter : IMultiValueConverter
     {
-        public MediaItem(IWMPMedia media)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            Media = media;
+            if (values.Length == 2 && values[0] is double totalWidth && values[1] is double subtractWidth)
+            {
+                return Math.Max(0, totalWidth - subtractWidth);
+            }
+            return 0;
         }
 
-        public IWMPMedia Media { get; private set; } = null;
-
-        public string Title 
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
-            get
-            {
-                return Media.name;
-            }
+            throw new NotImplementedException();
         }
-        
-        public string Singer
-        {
-            get
-            {
-                string artist = Media.getItemInfo("Artist");
-                if (artist == "")
-                {
-                    artist = "알수없음";
-                }
-                return artist;
-            }
-        }
-        public string More { get; } = "···";
     }
 
-    public class SubtractValueConverter : IValueConverter
+    public class MultiplyAndSubtractConverter : IMultiValueConverter
     {
-        public double Subtract { get; set; }
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values.Length == 3 &&
+                values[0] is double totalWidth &&
+                values[1] is double multiplier &&
+                values[2] is double subtractValue)
+            {
+                return Math.Max(0, (totalWidth * multiplier) - subtractValue);
+            }
+            return 0;
+        }
 
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class MultiplyConverter : IValueConverter
+    {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is double doubleValue)
+            if (value is double width && parameter is string multiplierString)
             {
-                return Math.Max(0, doubleValue - Subtract);
+                if (double.TryParse(multiplierString, out double multiplier))
+                {
+                    return width * multiplier;
+                }
             }
-            return value;
+            return 0;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

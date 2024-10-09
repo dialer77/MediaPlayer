@@ -17,7 +17,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Windows.Media.Animation;
 using MediaControlManager;
-using WMPLib;
+using MediaControlManager.Models;
 
 namespace MediaPlayer.UC
 {
@@ -38,6 +38,7 @@ namespace MediaPlayer.UC
         private bool _isControlVisible = true;
         private bool _isUserSeeking = false;
         private DispatcherTimer _progressTimer;
+        private bool _isPlaying = false;
 
         public UCMediaPlayer()
         {
@@ -59,6 +60,10 @@ namespace MediaPlayer.UC
             _progressTimer.Tick += ProgressTimer_Tick;
             _progressTimer.Start();
 
+            // MediaElement 이벤트 핸들러 추가
+            mediaElement.MediaOpened += MediaElement_MediaOpened;
+            mediaElement.MediaEnded += MediaElement_MediaEnded;
+            mediaElement.MediaFailed += MediaElement_MediaFailed;
         }
 
         private void UCMediaPlayer_Loaded(object sender, RoutedEventArgs e)
@@ -69,13 +74,6 @@ namespace MediaPlayer.UC
                 _parentWindow.StateChanged += ParentWindow_StateChanged;
                 _parentWindow.SizeChanged += ParentWindow_SizeChanged;
             }
-
-            // 포커스 설정
-            MainGrid.Focus();
-
-            // 초기 상태 설정: 컨트롤을 표시하고 타이머 시작
-            ShowControls(animate: false);
-
         }
 
         private void UCMediaPlayer_Unloaded(object sender, RoutedEventArgs e)
@@ -85,9 +83,6 @@ namespace MediaPlayer.UC
                 _parentWindow.StateChanged -= ParentWindow_StateChanged;
                 _parentWindow.SizeChanged -= ParentWindow_SizeChanged;
             }
-
-            _timer.Tick -= Timer_Tick;
-            _timer.Stop();
         }
 
         private void ParentWindow_StateChanged(object sender, EventArgs e)
@@ -132,7 +127,7 @@ namespace MediaPlayer.UC
             return Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2));
         }
 
-        private void ShowControls(bool animate = true)
+        public void ShowControls(bool animate = true)
         {
             if (!_isControlVisible)
             {
@@ -200,11 +195,11 @@ namespace MediaPlayer.UC
             }
         }
 
-        public void SetMedia(IWMPMedia media)
+        public void SetMedia(Media media)
         {
             if (_currentPlaylist != null && _currentPlaylist.Count > 0)
             {
-                int index = _currentPlaylist.FindIndex(x => x == media.sourceURL);
+                int index = _currentPlaylist.FindIndex(x => x == media.URL);
                 if (index != -1)
                 {
                     _currentMediaIndex = index;
@@ -225,12 +220,12 @@ namespace MediaPlayer.UC
         {
             m_playLIstType = playListType;
             var playlist = _mediaManager.GetPlayList(m_playLIstType);
-            if (playlist != null && playlist.count > 0)
+            if (playlist != null && playlist.Count > 0)
             {
                 _currentPlaylist = new List<string>();
-                for (int i = 0; i < playlist.count; i++)
+                for (int i = 0; i < playlist.Count; i++)
                 {
-                    _currentPlaylist.Add(playlist.Item[i].sourceURL);
+                    _currentPlaylist.Add(playlist[i].URL);
                 }
                 _currentMediaIndex = 0;
                 PlayCurrentMedia();
@@ -246,19 +241,14 @@ namespace MediaPlayer.UC
                 mediaElement.Play();
 
                 // MediaManager를 통해 현재 미디어의 정보를 가져옵니다.
-                IWMPMedia currentMedia = _mediaManager.GetMediaBySourceURL(m_playLIstType, currentMediaUrl);
+                Media currentMedia = _mediaManager.GetMediaBySourceURL(m_playLIstType, currentMediaUrl);
                 if (currentMedia != null)
                 {
                     // 미디어 제목을 설정합니다.
-                    TitleLabel.Content = currentMedia.getItemInfo("Title");
+                    TitleLabel.Content = currentMedia.Title;
 
                     // 작곡가/가수 정보를 설정합니다.
-                    string artist = currentMedia.getItemInfo("Artist");
-                    artist = artist == "" ? "알수없음 ": artist;
-                    string composer = currentMedia.getItemInfo("Composer");
-                    composer = composer == "" ? "알수없음 " : composer;
-                    string artistInfo = $"{artist} / {composer}";
-                    ArtistLabel.Content = artistInfo;
+                    ArtistLabel.Content = currentMedia.Artist;
                 }
                 else
                 {
@@ -272,12 +262,14 @@ namespace MediaPlayer.UC
         public void Play()
         {
             mediaElement.Play();
+            _isPlaying = true;
             UpdatePlayPauseButton(true);
         }
 
         public void Pause()
         {
             mediaElement.Pause();
+            _isPlaying = false;
             UpdatePlayPauseButton(false);
         }
 
@@ -315,22 +307,13 @@ namespace MediaPlayer.UC
 
         private void PlayPauseButton_Click(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            if(button == null)
+            if (_isPlaying)
             {
-                return;
+                Pause();
             }
-
-            if (mediaElement.CanPause)
+            else
             {
-                if (mediaElement.IsPlaying())
-                {
-                    Pause();
-                }
-                else
-                {
-                    Play();
-                }
+                Play();
             }
         }
 
@@ -350,12 +333,15 @@ namespace MediaPlayer.UC
             {
                 ProgressSlider.Maximum = mediaElement.NaturalDuration.TimeSpan.TotalSeconds;
                 TotalTimeTextBlock.Text = mediaElement.NaturalDuration.TimeSpan.ToString(@"hh\:mm\:ss");
+                _isPlaying = true;
                 UpdatePlayPauseButton(true);
             }
         }
 
         private void MediaElement_MediaEnded(object sender, RoutedEventArgs e)
         {
+            _isPlaying = false;
+            UpdatePlayPauseButton(false);
             if (_currentPlaylist != null && _currentMediaIndex < _currentPlaylist.Count - 1)
             {
                 // 현재 재생목록에 다음 곡이 있으면 다음 곡을 재생합니다.
@@ -367,6 +353,13 @@ namespace MediaPlayer.UC
                 _currentMediaIndex = 0;
                 PlayCurrentMedia();
             }
+        }
+
+        private void MediaElement_MediaFailed(object sender, ExceptionRoutedEventArgs e)
+        {
+            _isPlaying = false;
+            UpdatePlayPauseButton(false);
+            // 에러 처리 로직 추가
         }
 
         private void ProgressTimer_Tick(object sender, EventArgs e)
@@ -426,13 +419,28 @@ namespace MediaPlayer.UC
             get => mediaElement.Position;
             set => mediaElement.Position = value;
         }
-    }
 
-    public static class MediaElementExtensions
-    {
-        public static bool IsPlaying(this MediaElement mediaElement)
+        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            return mediaElement.Position < mediaElement.NaturalDuration.TimeSpan;
+            if((bool)e.NewValue == false)
+            {
+                mediaElement.Stop();
+                _isControlVisible = false;
+            }
+            else
+            {
+                // 포커스 설정
+                MainGrid.Focus();
+
+                ShowControls(animate: false);
+            }
+
+        }
+
+        // IsPlaying 메서드 수정
+        public bool IsPlaying()
+        {
+            return _isPlaying;
         }
     }
 }

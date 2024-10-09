@@ -6,13 +6,30 @@
              xmlns:local="clr-namespace:MediaPlayer.UC"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <!-- 그림자 효과를 위한 스타일 추가 -->
+        <Style x:Key="ShadowBorderStyle" TargetType="Border">
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Black" Direction="320" 
+                                      ShadowDepth="15" Opacity="0.8" 
+                                      BlurRadius="30"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <Image Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="300" Source="/Resources/SplashIcon.png"></Image>
+        <!-- 이미지에 그림자 효과 적용 -->
+        <Border Grid.Row="0" Style="{StaticResource ShadowBorderStyle}" 
+                HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Image Height="300" Source="/Resources/SplashIcon.png"/>
+        </Border>
+
         <ProgressBar Name="progressbar" Grid.Row="1" Background="{x:Null}" IsIndeterminate="True" BorderBrush="{x:Null}">
             <ProgressBar.Foreground>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0,0" SpreadMethod="Reflect">
