@@ -254,8 +254,10 @@ namespace MediaPlayer.UC
 
                     // 작곡가/가수 정보를 설정합니다.
                     string artist = currentMedia.getItemInfo("Artist");
+                    artist = artist == "" ? "알수없음 ": artist;
                     string composer = currentMedia.getItemInfo("Composer");
-                    string artistInfo = !string.IsNullOrEmpty(artist) ? artist : composer;
+                    composer = composer == "" ? "알수없음 " : composer;
+                    string artistInfo = $"{artist} / {composer}";
                     ArtistLabel.Content = artistInfo;
                 }
                 else

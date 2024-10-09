@@ -106,13 +106,16 @@ namespace MediaPlayer
             }
         }
 
-        
-
         private void UpdateMainPageUI(MainPageType mainPageType, PlayListType type = PlayListType.RecentMusicList)
         {
             m_mainPageType = mainPageType;
 
             panelMainPage.Children.Clear();
+            panelMediaPanel.Children.Clear();
+
+            // 배경 이미지 변경
+            UpdateBackgroundImage(mainPageType);
+
             switch (mainPageType)
             {
                 case MainPageType.SplashPage:
@@ -121,7 +124,7 @@ namespace MediaPlayer
                     break;
                 case MainPageType.MainMenu:
                     panelMainPage.Children.Add(ucMainMenu);
-                    buttonBeforePage.Visibility= Visibility.Hidden;
+                    buttonBeforePage.Visibility = Visibility.Hidden;
                     break;
                 case MainPageType.MediaList:
                     panelMainPage.Children.Add(ucMediaList);
@@ -129,11 +132,39 @@ namespace MediaPlayer
                     ucMediaList.SetPlayListType(type);
                     break;
                 case MainPageType.MediaPlayer:
-                    panelMainPage.Children.Add(ucMediaPlayer);
+                    panelMediaPanel.Children.Add(ucMediaPlayer);
                     buttonBeforePage.Visibility = Visibility.Visible;
                     ucMediaPlayer.SetPlayList(type); 
                     break;
+            }
+        }
 
+        private void UpdateBackgroundImage(MainPageType mainPageType)
+        {
+            string imagePath;
+            switch (mainPageType)
+            {
+                case MainPageType.SplashPage:
+                case MainPageType.MainMenu:
+                    imagePath = "pack://application:,,,/Resources/BackGroundMain.png";
+                    break;
+                case MainPageType.MediaList:
+                    imagePath = "pack://application:,,,/Resources/BackGroundMusicList.png";
+                    break;
+                case MainPageType.MediaPlayer:
+                default:
+                    return;
+            }
+
+            try
+            {
+                ImageBrush brush = new ImageBrush();
+                brush.ImageSource = new BitmapImage(new Uri(imagePath, UriKind.Absolute));
+                this.Background = brush;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"배경 이미지 로드 오류: {ex.Message}\n경로: {imagePath}");
             }
         }
 
