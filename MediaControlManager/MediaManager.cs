@@ -12,8 +12,6 @@ namespace MediaControlManager
 {
     public class MediaManager
     {
-        private const string FOLDER_NAME_MUSIC = "Music";
-        private const string FOLDER_NAME_VIDEO = "Video";
         
         private static Lazy<MediaManager> _instance = new Lazy<MediaManager>(() => new MediaManager(), System.Threading.LazyThreadSafetyMode.ExecutionAndPublication);
         public static MediaManager GetInstance() => _instance.Value;
@@ -26,6 +24,8 @@ namespace MediaControlManager
 
         private MediaManager()
         {
+
+
         }
 
         public IWMPPlaylist GetPlayList(PlayListType playListType)
@@ -96,6 +96,20 @@ namespace MediaControlManager
                 Thread.Sleep(100);
                 m_musicPlayer.controls.stop();
             }
+        }
+
+        public IWMPMedia GetMediaBySourceURL(PlayListType playListType, string sourceURL)
+        {
+            var playList = m_dicPlayList[playListType];
+            for (int i = 0; i < playList.count; i++)
+            {
+                IWMPMedia media = playList.get_Item(i);
+                if (media.sourceURL == sourceURL)
+                {
+                    return media;
+                }
+            }
+            return null;
         }
     }
 }

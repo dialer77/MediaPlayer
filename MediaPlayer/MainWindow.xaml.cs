@@ -55,7 +55,8 @@ namespace MediaPlayer
         private void UcMediaList_OnMediaItemSelected(PlayListType type, WMPLib.IWMPMedia media)
         {
             m_mainPageType = MainPageType.MediaPlayer;
-            UpdateMainPageUI(m_mainPageType);
+            UpdateMainPageUI(m_mainPageType, type);
+            ucMediaPlayer.SetMedia(media);
         }
 
         private void UcSplashPage_OnFinishMediaLoaded()
@@ -130,6 +131,7 @@ namespace MediaPlayer
                 case MainPageType.MediaPlayer:
                     panelMainPage.Children.Add(ucMediaPlayer);
                     buttonBeforePage.Visibility = Visibility.Visible;
+                    ucMediaPlayer.SetPlayList(type); 
                     break;
 
             }

@@ -6,57 +6,97 @@
              xmlns:local="clr-namespace:MediaPlayer.UC"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="50"/>
-            <ColumnDefinition Width="1*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="30"/>
-        </Grid.RowDefinitions>
-        <!--<WindowsFormsHost Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="6" Panel.ZIndex="1" Name="windowsFormsHost" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Background="Black" />-->
+    <Grid x:Name="MainGrid" Background="Black"
+          MouseMove="UCMediaPlayer_InputDetected"
+          KeyDown="UCMediaPlayer_InputDetected"
+          PreviewMouseDown="UCMediaPlayer_InputDetected"
+          Focusable="True">
+        
+        <Border Background="Black">
+            <MediaElement x:Name="mediaElement" 
+                          LoadedBehavior="Manual" 
+                          UnloadedBehavior="Stop"
+                          MediaOpened="MediaElement_MediaOpened"
+                          MediaEnded="MediaElement_MediaEnded"
+                          Stretch="Uniform"/>
+        </Border>
 
-        <Label Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Panel.ZIndex="2" Content="제목제목제목제목" 
-               HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-               HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}"
-               FontSize="30" FontWeight="Bold" Foreground="White"/>
+        <!-- 입력을 항상 받을 수 있도록 하는 투명한 레이어 -->
+        <Grid x:Name="InputLayer" Background="Transparent">
+            <!-- ControlOverlay는 UI 오버레이 역할을 합니다 -->
+            <Grid x:Name="ControlOverlay" 
+                  Width="{Binding ActualWidth, ElementName=MainGrid}" 
+                  Height="{Binding ActualHeight, ElementName=MainGrid}"
+                  Opacity="1"
+                  Visibility="Visible"
+                  Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
 
-        <Label Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Panel.ZIndex="2" Content="제목" 
-               HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-               HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}"
-               FontSize="30" FontWeight="Bold" Foreground="Gray"/>
+                <Label Name ="TitleLabel"  Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Content="제목제목제목제목" 
+                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                       FontSize="30" FontWeight="Bold" Foreground="White"/>
 
-        <Slider Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" Panel.ZIndex="2"
-                HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="50, 0, 50, 0"/>
+                <Label Name="ArtistLabel" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Content="제목" 
+                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                       FontSize="30" FontWeight="Bold" Foreground="Gray"/>
 
-        <Button Grid.Column="0" Grid.Row="4" Panel.ZIndex="2"
-                HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="50" Height="50" Margin="0, 0, 50, 0" BorderBrush="{x:Null}"
-                >
-            <Button.Background>
-                <ImageBrush ImageSource="/MediaPlayer;component/Resources/back.png"/>
-            </Button.Background>
-        </Button>
+                <!-- Slider 추가 -->
+                <Grid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="CurrentTimeTextBlock" Grid.Column="0" Foreground="White" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                    <Slider x:Name="ProgressSlider" Grid.Column="1" Minimum="0" Maximum="100" 
+                            PreviewMouseDown="ProgressSlider_PreviewMouseDown"
+                            PreviewMouseMove="ProgressSlider_PreviewMouseMove"
+                            PreviewMouseUp="ProgressSlider_PreviewMouseUp"
+                            VerticalAlignment="Center"/>
+                    <TextBlock x:Name="TotalTimeTextBlock" Grid.Column="2" Foreground="White" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                </Grid>
 
-        <Button Grid.Column="1" Grid.Row="4" Panel.ZIndex="2"
-                HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="50" Height="50" BorderBrush="{x:Null}">
-            <Button.Background>
-                <ImageBrush ImageSource="/MediaPlayer;component/Resources/play.png"/>
-            </Button.Background>
-        </Button>
+                <Button Grid.Column="0" Grid.Row="4"
+                        HorizontalAlignment="Right" VerticalAlignment="Stretch" 
+                        Width="50" Height="50" Margin="0, 0, 50, 0" BorderBrush="{x:Null}"
+                        Click="PreviousButton_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/MediaPlayer;component/Resources/back.png"/>
+                    </Button.Background>
+                </Button>
 
-        <Button Grid.Column="2" Grid.Row="4" Panel.ZIndex="2"
-                HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="50" Height="50" Margin="50, 0, 0, 0" BorderBrush="{x:Null}">
-            <Button.Background>
-                <ImageBrush ImageSource="/MediaPlayer;component/Resources/next.png"/>
-            </Button.Background>
-        </Button>
+                <Button x:Name="PlayPauseButton" Grid.Column="1" Grid.Row="4"
+                        HorizontalAlignment="Center" VerticalAlignment="Stretch" 
+                        Width="50" Height="50" BorderBrush="{x:Null}"
+                        Click="PlayPauseButton_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/MediaPlayer;component/Resources/play.png"/>
+                    </Button.Background>
+                </Button>
 
-
+                <Button Grid.Column="2" Grid.Row="4"
+                        HorizontalAlignment="Left" VerticalAlignment="Stretch" 
+                        Width="50" Height="50" Margin="50, 0, 0, 0" BorderBrush="{x:Null}"
+                        Click="NextButton_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/MediaPlayer;component/Resources/next.png"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>
