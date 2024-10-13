@@ -119,13 +119,18 @@ namespace MediaPlayer.UC
                     if (mouseEvent.LeftButton == MouseButtonState.Pressed)
                     {
                         ResetInactivityTimer();
-                        if (_isPlaying)
+                        
+                        // Check if the click is on any of the control elements
+                        if (!(mouseEvent.Source is Button) && !(mouseEvent.Source is Slider))
                         {
-                            Pause();
-                        }
-                        else
-                        {
-                            Play();
+                            if (_isPlaying)
+                            {
+                                Pause();
+                            }
+                            else
+                            {
+                                Play();
+                            }
                         }
                     }
                 }

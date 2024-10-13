@@ -75,7 +75,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="50"/>
-                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="40"/>
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="30"/>
@@ -83,14 +83,16 @@
 
                 <Label Name ="TitleLabel"  Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Content="제목제목제목제목" 
                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                       HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
                        FontSize="32.2" FontWeight="Bold" Foreground="White"
+                       Margin="100, 0, 0, 0"
                        FontFamily="{StaticResource MediaTitleFont}"/>
 
                 <Label Name="ArtistLabel" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Content="제목" 
                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                       FontSize="24.6" FontWeight="Bold" Foreground="Gray"
+                       HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+                       FontSize="24.6" FontWeight="Bold" Foreground="White"
+                       Margin="100, 0, 0, 0"
                        FontFamily="{StaticResource MediaArtistFont}"/>
 
                 <!-- Slider 추가 -->
