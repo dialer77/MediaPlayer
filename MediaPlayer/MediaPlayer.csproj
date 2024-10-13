@@ -59,6 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Audio\SoundEffectManager.cs" />
     <Compile Include="EnumDefined.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -120,6 +121,16 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Fonts\THEmpgtB.otf" />
+    <Resource Include="Fonts\THEmpgtB_U.otf" />
+    <Resource Include="Fonts\THEmpgtEB.otf" />
+    <Resource Include="Fonts\THEmpgtEB_U.otf" />
+    <Resource Include="Fonts\THEmpgtL.otf" />
+    <Resource Include="Fonts\THEmpgtL_U.otf" />
+    <Resource Include="Fonts\THEmpgtM.otf" />
+    <Resource Include="Fonts\THEmpgtM_U.otf" />
+    <Resource Include="Fonts\THEmpgtR.otf" />
+    <Resource Include="Fonts\THEmpgtR_U.otf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -207,6 +218,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\SplashIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\clickSound.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

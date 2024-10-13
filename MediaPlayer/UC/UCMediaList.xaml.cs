@@ -34,6 +34,7 @@ namespace MediaPlayer.UC
             InitializeComponent();
 
             RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
+
         }
 
         public void SetPlayListType(PlayListType playListType)
@@ -85,6 +86,30 @@ namespace MediaPlayer.UC
             }
             OnMediaItemSelected(_listType, selectedMedia);
         }
+
+        private async void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue)
+            {
+                await Task.Delay(500);
+                listViewMediaList.IsEnabled = true;
+            }
+            else
+            {
+                listViewMediaList.IsEnabled = false;
+            }
+        }
+
+        private void listViewMediaList_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Media selectedMedia = (Media)listViewMediaList.SelectedItem;
+            if (selectedMedia == null)
+            {
+                return;
+            }
+            OnMediaItemSelected(_listType, selectedMedia);
+        }
+
     }
 
     public class SubtractValueConverter : IMultiValueConverter

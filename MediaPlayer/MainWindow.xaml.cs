@@ -1,6 +1,7 @@
 ﻿using MediaControlManager;
 using MediaControlManager.Models;
 using MediaPlayer.UC;
+using MediaPlayer.Audio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +52,9 @@ namespace MediaPlayer
             ucMainMenu.OnMusicListButtonClicked += UcMainMenu_OnMusicListButtonClicked;
 
             ucMediaList.OnMediaItemSelected += UcMediaList_OnMediaItemSelected;
+
+            // 전역 마우스 이벤트 핸들러 등록
+            AddHandler(PreviewMouseDownEvent, new MouseButtonEventHandler(OnPreviewMouseDown), true);
         }
 
         private void UcMediaList_OnMediaItemSelected(PlayListType type, Media media)
@@ -105,6 +109,16 @@ namespace MediaPlayer
                 ReleaseCapture();
                 SendMessage(new WindowInteropHelper(this).Handle, 0x112, 0xf012, 0);
             }
+        }
+
+        private void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                SoundEffectManager.Instance.PlayClickSound();
+            }
+            // 이벤트를 처리했다고 표시하지 않음 (e.Handled = true를 설정하지 않음)
+            // 이렇게 하면 이벤트가 계속 전파되어 다른 컨트롤의 클릭 이벤트도 정상적으로 동작함
         }
 
         private void UpdateMainPageUI(MainPageType mainPageType, PlayListType type = PlayListType.RecentMusicList)

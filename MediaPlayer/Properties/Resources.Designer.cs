@@ -101,6 +101,15 @@ namespace MediaPlayer.Properties {
         }
         
         /// <summary>
+        ///   System.IO.MemoryStream과(와) 유사한 System.IO.UnmanagedMemoryStream 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream clickSound {
+            get {
+                return ResourceManager.GetStream("clickSound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
         public static System.Drawing.Bitmap Exit {
@@ -227,6 +236,106 @@ namespace MediaPlayer.Properties {
             get {
                 object obj = ResourceManager.GetObject("stop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        public static byte[] THEmpgtB {
+            get {
+                object obj = ResourceManager.GetObject("THEmpgtB", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        public static byte[] THEmpgtB_U {
+            get {
+                object obj = ResourceManager.GetObject("THEmpgtB_U", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        public static byte[] THEmpgtEB {
+            get {
+                object obj = ResourceManager.GetObject("THEmpgtEB", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        public static byte[] THEmpgtEB_U {
+            get {
+                object obj = ResourceManager.GetObject("THEmpgtEB_U", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        public static byte[] THEmpgtL {
+            get {
+                object obj = ResourceManager.GetObject("THEmpgtL", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        public static byte[] THEmpgtL_U {
+            get {
+                object obj = ResourceManager.GetObject("THEmpgtL_U", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        public static byte[] THEmpgtM {
+            get {
+                object obj = ResourceManager.GetObject("THEmpgtM", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        public static byte[] THEmpgtM_U {
+            get {
+                object obj = ResourceManager.GetObject("THEmpgtM_U", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        public static byte[] THEmpgtR {
+            get {
+                object obj = ResourceManager.GetObject("THEmpgtR", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        public static byte[] THEmpgtR_U {
+            get {
+                object obj = ResourceManager.GetObject("THEmpgtR_U", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
